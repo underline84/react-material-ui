@@ -1,45 +1,46 @@
-import { Box, Drawer, useTheme, Avatar, 
-        Divider, List, ListItemButton, 
-        ListItemIcon, ListItemText, Icon} from "@mui/material";
+import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from '@mui/material';
+import { Box } from '@mui/system';
+
+import { useDrawerContext } from '../../contexts';
 
 
-export const MenuLateral: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const MenuLateral: React.FC<{children: React.ReactNode}> = ({ children }) => {
+  const theme = useTheme();
+  const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const theme = useTheme();
+  const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
 
-    return (
-        <>
-            <Drawer variant="permanent">
-                <Box width={theme.spacing(24)} height="100%" display="flex" flexDirection="column">
+  return (
+    <>
+      <Drawer open={isDrawerOpen} variant={smDown ? 'temporary' : 'permanent'} onClose={toggleDrawerOpen}>
+        <Box width={theme.spacing(28)} height="100%" display="flex" flexDirection="column">
 
-                    <Box width="100%" height={theme.spacing(16)} display="flex"
-                        alignItems="center" justifyContent="center">
-                        <Avatar
-                            sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
-                            src="https://avatars.githubusercontent.com/u/84279332?s=400&u=c0d53f49c83fc07f3b4254d57ee3a165003c3e29&v=4" />
-                    </Box>
+          <Box width="100%" height={theme.spacing(20)} display="flex" alignItems="center" justifyContent="center">
+            <Avatar
+              sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
+              src="https://yt3.ggpht.com/grfYgQadT8iNg9WPb-jkrKB-9224y_DBDXAOtV4Yt7cyQmtR47J_453uveQOTDsp_dRSH851TMM=s108-c-k-c0x00ffffff-no-rj"
+            />
+          </Box>
 
-                    <Divider />
+          <Divider />
 
-                    <Box flex={1}>
-                        <List component="nav">
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Icon>home</Icon>
-                                </ListItemIcon>
-                                <ListItemText primary="Página inicial" />
-                            </ListItemButton>
-                        </List>
-                    </Box>
+          <Box flex={1}>
+            <List component="nav">
+              <ListItemButton>
+                <ListItemIcon>
+                  <Icon>home</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Página inicial" />
+              </ListItemButton>
+            </List>
+          </Box>
 
-                </Box>
+        </Box>
+      </Drawer>
 
-            </Drawer>
-
-            <Box height="100vh" marginLeft={theme.spacing(24)}>
-                {children}
-            </Box>
-
-        </>
-    );
-}
+      <Box height="100vh" marginLeft={smDown ? 0 : theme.spacing(28)}>
+        {children}
+      </Box>
+    </>
+  );
+};
